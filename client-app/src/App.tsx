@@ -22,7 +22,7 @@ function App() {
   },[])//[] only once
   //U mainu treba ispisat activities preko js koda 
   return (
-    //prosljedujem oheaduer neke propertiese
+    //prosljedujemo headuer neke propertiese header-semantic-css
     <div >
       <Header as='h2' icon='users' content='Reactivities'/>
        
