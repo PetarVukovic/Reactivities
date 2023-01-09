@@ -1,16 +1,16 @@
-using Microsoft.AspNetCore.Mvc;
-using Persistence;
-using Domain;
-using Microsoft.EntityFrameworkCore;
-using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Application.Activites;
+using Domain;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     public class ActivitiesController:BaseApiController//znaci da nasljeduje api atribut i rutu
     {
       
-       
-          
 
         [HttpGet]//api/activities
         public async Task<ActionResult<List<Activity>>>GetActivities()
@@ -27,18 +27,19 @@ namespace API.Controllers
         [HttpPost]
         // ne vracamo nista u tesku iactionresult vraca samo Ok ,bad request,not found etc.
         //on je pametan da pogleda objekt koji mu je prosljeden
-        public async Task<IActionResult>CreateActivity(Activity activity){
+        public async Task<IActionResult>CreateActivity(Activity activity)
+        {
 
             return Ok(await Mediator.Send(new Create.Command{Activity=activity}));
         }
-        [HttpPut("{id")]
+        [HttpPut("{id}")]
          public async Task<IActionResult>EditActivity(Guid id,Activity activity)
          {
             activity.Id=id;
             return Ok(await Mediator.Send(new Edit.Command{Activity=activity}));
 
          }
-         [HttpDelete("{id")]
+         [HttpDelete("{id}")]
          public async Task<IActionResult>DeleteActivity(Guid id)
          {
             return Ok(await Mediator.Send(new Delete.Command{Id=id}));
