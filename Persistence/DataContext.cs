@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Domain;//for activity
+using System.Data;
 namespace Persistence
 {
     public class DataContext : DbContext// sesija sa databazom query and use instancies of your entities

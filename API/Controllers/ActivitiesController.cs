@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Application.Activites;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Persistence;
 namespace API.Controllers
 {
     public class ActivitiesController:BaseApiController//znaci da nasljeduje api atribut i rutu
