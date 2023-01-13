@@ -18,6 +18,22 @@ export default class ActivityStore{
     get activitiesByDate(){//compurted property
         return Array.from(this.activityRegistry.values()).sort((a,b)=>Date.parse(a.date)-Date.parse(b.date));
     }
+
+    get groupedActivities (){
+
+        return Object.entries(
+            this.activitiesByDate.reduce((activities,activity)=>{
+                const date=activity.date;//ovaj string ce biti key za svaki objekt
+                
+                activities[date]=activities[date] ?[...activities[date],activity]:[activity];     
+                 //provjeravamo jeli taj activities on that date matches ako je 
+                 //spredamo activities i dodamo activity kojeg dajemo ako ne dodajemo novi 
+                 return activities;
+            },{} as {[key:string]:Activity[]})
+            //treba objectu(jer je entries) na pocetku dati key i value(koji ce biti array activitiesa)
+        )
+
+    }
     loadActivities=async ()=>{
         this.setLoadingInitial(true);
         try {
