@@ -18,7 +18,7 @@ namespace API.Controllers
             //INSIDE OUR APPLICATION PROJECT 
         }
         
-
+       
         [HttpGet("{id}")]//api/activities/id
         public async Task<IActionResult>GetActivity(Guid id)
         {

@@ -3,10 +3,20 @@ using Microsoft.EntityFrameworkCore;
 using Persistence;
 using API.Extensions;
 using API.Middleware;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
+
+//sad ce svaki kontroler endpoint zahtjevat autentifikaciju
+builder.Services.AddControllers(opt=>{
+    var policy=new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+    opt.Filters.Add(new AuthorizeFilter(policy));
+});
+
 builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 
 
 
@@ -22,7 +32,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("CorsPolicy");
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -33,8 +43,9 @@ var services=scope.ServiceProvider;
 try
 {
     var context=services.GetRequiredService<DataContext>();
+   var userManager=services.GetRequiredService<UserManager<AppUser>>();
     await context.Database.MigrateAsync();//napravit ce bazu novu ako nije vec ,isot await jer se prvo treba napravit prije nego sto skoci na drugu metodu
-    await Seed.SeedData(context);//pozivamo staticnu metodu (await pricekaj da se izvrsi onda kreni dalje jer je asinkroni task)
+    await Seed.SeedData(context,userManager);//pozivamo staticnu metodu (await pricekaj da se izvrsi onda kreni dalje jer je asinkroni task)
 }
 catch (Exception ex)
 {
