@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Persistence;
 namespace API.Controllers
 {
+    [AllowAnonymous]
     public class ActivitiesController:BaseApiController//znaci da nasljeduje api atribut i rutu
     {
       
