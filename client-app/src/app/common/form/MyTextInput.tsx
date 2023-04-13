@@ -6,6 +6,7 @@ interface Props{
     placeholder:string;
     name:string;
     label?:string;
+    type?:string
 
 }
 //meta jeli filed diran.!!-cast-> pretvara taj error koji je string u boolean
